@@ -1,24 +1,24 @@
-# 🏆 Kaggle Competition Alert
+#  Kaggle Competition Alert
 
 A simple GitHub Actions bot that checks Kaggle competitions once a day and sends new competition alerts to Telegram.
 
 Your computer does **not** need to stay on.
 
-## ✨ Features
+##  Features
 
-- 🔎 Checks Kaggle competitions automatically.
+-  Checks Kaggle competitions automatically.
 - ⏰ Runs every day at **7:00 AM Egypt time**.
-- 📱 Sends notifications to Telegram.
-- 🔐 Uses GitHub Secrets for credentials.
-- ☁️ Runs completely in GitHub Actions.
+-  Sends notifications to Telegram.
+-  Uses GitHub Secrets for credentials.
+-  Runs completely in GitHub Actions.
 
-## 🚀 How it works
+##  How it works
 
 ```text
-Kaggle → GitHub Actions → Python → Telegram Bot → 📱 Telegram
+Kaggle → GitHub Actions → Python → Telegram Bot →  Telegram
 ```
 
-# 🛠️ Setup
+#  Setup
 
 ## 1. Fork the repository
 
@@ -84,7 +84,7 @@ You will use it as:
 
 `TELEGRAM_CHAT_ID`
 
-## 🔐 5. Add the 3 GitHub Secrets
+##  5. Add the 3 GitHub Secrets
 
 In **your forked repository** go to:
 
@@ -106,7 +106,7 @@ ${{ secrets.TELEGRAM_BOT_TOKEN }}
 ${{ secrets.TELEGRAM_CHAT_ID }}
 ```
 
-### ⚠️ Never commit secrets
+###  Never commit secrets
 
 Do not put tokens in:
 
@@ -116,7 +116,7 @@ Do not put tokens in:
 - public GitHub issues
 - commits
 
-## ▶️ 6. Test the workflow
+## ▶ 6. Test the workflow
 
 Go to:
 
@@ -128,7 +128,7 @@ Click:
 
 If the setup is correct, the workflow should finish successfully and Telegram should receive a message.
 
-## 🧪 Test mode
+##  Test mode
 
 The project currently has:
 
@@ -183,7 +183,7 @@ To change the schedule, edit:
 
 `.github/workflows/kaggle-alert.yml`
 
-## 📁 Project structure
+##  Project structure
 
 ```text
 kaggle-competition-alert/
@@ -209,13 +209,13 @@ Defines when GitHub Actions runs the monitor.
 
 Contains the required Python packages.
 
-## 🔒 Security
+##  Security
 
 If your Telegram bot token is accidentally exposed, revoke/regenerate it through BotFather immediately.
 
 Never reuse a leaked token.
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Telegram does not receive a message
 
