@@ -59,13 +59,13 @@ def main():
         deadline = c.get("deadline") or "Not specified"
 
         message = (
-            "🧪 Kaggle Alert TEST\n\n"
-            "🏆 Latest Competition\n"
-            f"📌 {title}\n"
-            f"💰 Prize: {reward}\n"
-            f"📅 Deadline: {deadline}\n"
-            f"🔗 {competition_url(ref)}\n\n"
-            f"🕐 Test time (UTC): {datetime.now(timezone.utc):%Y-%m-%d %H:%M}"
+            " Kaggle Alert TEST\n\n"
+            " Latest Competition\n"
+            f" {title}\n"
+            f" Prize: {reward}\n"
+            f" Deadline: {deadline}\n"
+            f" {competition_url(ref)}\n\n"
+            f" Test time (UTC): {datetime.now(timezone.utc):%Y-%m-%d %H:%M}"
         )
         send_telegram(message)
         print(f"TEST: sent latest competition: {ref}")
@@ -93,14 +93,14 @@ def main():
         print("No new Kaggle competitions found.")
         return
 
-    lines = ["🚨 New Kaggle Competition(s)", ""]
+    lines = [" New Kaggle Competition(s)", ""]
     for c in new_items:
         ref = c.get("ref", "")
         lines.extend([
-            f"🏆 {c.get('title') or ref}",
-            f"💰 Prize: {c.get('reward') or 'Not specified'}",
-            f"📅 Deadline: {c.get('deadline') or 'Not specified'}",
-            f"🔗 {competition_url(ref)}",
+            f" {c.get('title') or ref}",
+            f" Prize: {c.get('reward') or 'Not specified'}",
+            f" Deadline: {c.get('deadline') or 'Not specified'}",
+            f" {competition_url(ref)}",
             "",
         ])
 
