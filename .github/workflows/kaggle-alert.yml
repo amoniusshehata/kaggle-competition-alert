@@ -2,8 +2,8 @@ name: Daily Kaggle Competition Alert
 
 on:
   schedule:
-    # 06:00 UTC = 09:00 Egypt time (UTC+3)
-    - cron: "0 6 * * *"
+    # 04:00 UTC = 07:00 Egypt time (UTC+3)
+    - cron: "0 4 * * *"
   workflow_dispatch:
 
 permissions:
