@@ -2,14 +2,16 @@ import json
 import os
 import subprocess
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 import requests
 
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
-LOOKBACK_HOURS = 25
+# TEST MODE: send the newest Kaggle competition every time the workflow runs.
+# Set to False after the Telegram test succeeds.
+TEST_MODE = True
 
 
 def get_competitions():
@@ -24,14 +26,6 @@ def get_competitions():
     return data if isinstance(data, list) else data.get("competitions", [])
 
 
-def parse_date(value):
-    if not value:
-        return None
-    value = value.replace("Z", "+00:00")
-    dt = datetime.fromisoformat(value)
-    return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
-
-
 def send_telegram(text):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     response = requests.post(
@@ -43,43 +37,32 @@ def send_telegram(text):
 
 
 def main():
-    now = datetime.now(timezone.utc)
-    cutoff = now - timedelta(hours=LOOKBACK_HOURS)
-
     competitions = get_competitions()
-    new_items = []
 
-    for c in competitions:
-        created = parse_date(c.get("dateCreated") or c.get("created"))
-        if created and cutoff <= created <= now:
-            new_items.append(c)
-
-    # Remove duplicate refs while preserving order.
-    seen = set()
-    new_items = [c for c in new_items if not (c.get("ref") in seen or seen.add(c.get("ref")))]
-
-    if not new_items:
-        print("No new Kaggle competitions found.")
+    if not competitions:
+        print("No Kaggle competitions returned.")
         return
 
-    lines = ["🚨 New Kaggle Competition(s)", ""]
-    for c in new_items:
+    if TEST_MODE:
+        c = competitions[0]
         ref = c.get("ref", "unknown")
         title = c.get("title") or ref
         reward = c.get("reward") or "Not specified"
         deadline = c.get("deadline") or "Not specified"
         link = f"https://www.kaggle.com/competitions/{ref}"
 
-        lines.extend([
-            f"🏆 {title}",
-            f"💰 Prize: {reward}",
-            f"📅 Deadline: {deadline}",
-            f"🔗 {link}",
-            "",
-        ])
-
-    send_telegram("\n".join(lines))
-    print(f"Sent {len(new_items)} competition alert(s).")
+        message = (
+            "🧪 Kaggle Alert TEST\n\n"
+            "🏆 Latest Competition\n"
+            f"📌 {title}\n"
+            f"💰 Prize: {reward}\n"
+            f"📅 Deadline: {deadline}\n"
+            f"🔗 {link}\n\n"
+            f"🕐 Test time (UTC): {datetime.now(timezone.utc):%Y-%m-%d %H:%M}"
+        )
+        send_telegram(message)
+        print(f"TEST: sent latest competition: {ref}")
+        return
 
 
 if __name__ == "__main__":
